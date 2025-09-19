@@ -1,0 +1,9 @@
+En muestras.py aun falta colocar que dependiendo de la varibale save_samples se guarde o no las muestras 
+asi mismo hay que evaluar si las muestras se van a guardar como prueba o como entrenamiento mediante la variable train_sampele
+
+Luego hay que colocar los botones y acciones de muestras.py pero en deteccion y ver que mas se puede agregar
+
+Tambien hay que preparar el disenio del entrenamiento para realizar el entrenamiento desde la app mismo y tratar
+de mostrar la informacion necesaria del resultado del entrenamiento
+
+Realizar mas evaluaciones con personas de momento hay 25

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Identificación</title>
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background-color: #f8f9fa;
+      margin: 0;       /* <- elimina márgenes del body */
+      padding: 0;      /* <- elimina padding para que el navbar llegue al borde */
+    }
+    #container {
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-width: 960px;
+      margin: 0 auto;  /* centra el video en la página */
+      padding: 10px;   /* margen interno opcional */
+    }
+    #videoStream {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    #videoCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #infoPanel {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  {% include 'navbar.html' %}
+  <div class="container-fluid">
+    <h1 class="text-center mb-4">🎥 Identificación de personas</h1>
+    <div class="row">
+      <!-- Columna izquierda: Video -->
+      <div class="col-md-7">
+        <div id="container" class="mb-3">
+          <img id="videoStream" src="/video_feed" alt="Stream de Video">
+          <!-- canvas sin width/height fijos, se ajusta dinámicamente -->
+          <canvas id="videoCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Panel de info -->
+      <div class="col-md-5">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            Información del Detector
+          </div>
+          <div class="card-body">
+            <!-- Aquí se inyecta la info del panel -->
+            <div id="infoPanel" class="table-responsive">
+              <p class="text-muted">Esperando datos...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts originales -->
+  <script>
+    const canvas = document.getElementById('videoCanvas');
+    const ctx = canvas.getContext('2d');
+    const img = document.getElementById('videoStream');
+
+    let personas = [];
+    window.selectedId = null;
+
+    // 🔹 Ajustar tamaño del canvas al del video
+    function resizeCanvas() {
+      canvas.width = img.clientWidth;
+      canvas.height = img.clientHeight;
+    }
+
+    // 🔹 Ejecutar cuando se cargue el video y cuando cambie el tamaño de ventana
+    img.onload = resizeCanvas;
+    window.addEventListener('resize', resizeCanvas);
+
+    // Dibujar cajas encima del video
+    function drawBoxes() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Escalas respecto al tamaño original del video en OpenCV (960x540)
+      const scaleX = canvas.width / 960;
+      const scaleY = canvas.height / 540;
+
+      personas.forEach(({tid, box}) => {
+        let [x1, y1, x2, y2] = box;
+
+        // 🔹 Escalar coordenadas al tamaño actual del canvas
+        x1 *= scaleX;
+        x2 *= scaleX;
+        y1 *= scaleY;
+        y2 *= scaleY;
+
+        ctx.strokeStyle = (tid === window.selectedId) ? 'red' : 'green';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
+
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.font = '16px Arial';
+        //ctx.fillText(`ID ${tid}`, x1, y1 - 5);
+      });
+
+      requestAnimationFrame(drawBoxes);
+    }
+
+    drawBoxes(); // iniciar loop de dibujo
+
+    // Actualizar detecciones cada 100ms
+    setInterval(async () => {
+      try {
+        const res = await fetch('/get_detections');
+        personas = await res.json();
+      } catch (e) {
+        console.error('Error al obtener detecciones:', e);
+      }
+    }, 100);
+
+    // Manejar clicks sobre canvas
+    canvas.addEventListener('click', function(e) {
+      const rect = canvas.getBoundingClientRect();
+
+      // 🔹 Escalas respecto al tamaño original del video en OpenCV (960x540)
+      const scaleX = 960 / canvas.width;
+      const scaleY = 540 / canvas.height;
+
+      // Coordenadas del click dentro del canvas
+      const x = (e.clientX - rect.left) * scaleX;
+      const y = (e.clientY - rect.top) * scaleY;
+
+      for (let i = 0; i < personas.length; i++) {
+        const {tid, box} = personas[i];
+        const [x1, y1, x2, y2] = box;
+        if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
+          fetch('/select_person', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ tid })
+          })
+          .then(res => res.json())
+          .then(data => { 
+            console.log('Seleccion actualizada:', data);
+            window.selectedId = tid; 
+          });
+          break;
+        }
+      }
+    });
+  </script>
+  <script>
+    let infoDetector = {};
+
+    // Actualizar info extra cada 1s
+    setInterval(async () => {
+      try {
+        const res = await fetch('/get_info');
+        infoDetector = await res.json();
+        renderInfo(infoDetector);
+      } catch (e) {
+        console.error('Error al obtener info extra:', e);
+      }
+    }, 1000);
+
+    // Mostrar info en pantalla
+    function renderInfo(info) {
+      let panel = document.getElementById('infoPanel');
+      panel.innerHTML = `
+        <table class="table table-sm table-bordered align-middle">
+          <tbody>
+            <tr><th>Persona Identificada</th><td>${info.label}</td></tr>
+            <tr><th>Orientación</th><td>${info.orientacionString}</td></tr>
+          </tbody>
+        </table>
+      `;
+      /*
+       <tr><th>VP</th><td>${info.VP}</td></tr>
+            <tr><th>FP</th><td>${info.FP}</td></tr>
+      <tr><th>Contador</th><td>${info.contador}</td></tr>
+      <tr><th>Confianza</th><td>${info.CONF_THRES}</td></tr>
+      <tr><th>Persona seleccionada</th><td>${info.selected_id ?? "Ninguna"}</td></tr>
+      <tr><th>Vectores</th><td>
+        32-31: ${JSON.stringify(info.vector_distancia_32_31)} <br>
+        28-27: ${JSON.stringify(info.vector_distancia_28_27)} <br>
+        26-25: ${JSON.stringify(info.vector_distancia_26_25)} <br>
+        31-23: ${JSON.stringify(info.vector_distancia_31_23)} <br>
+        32-24: ${JSON.stringify(info.vector_distancia_32_24)} <br>
+        16-12: ${JSON.stringify(info.vector_distancia_16_12)} <br>
+        15-11: ${JSON.stringify(info.vector_distancia_15_11)} <br>
+        32-16: ${JSON.stringify(info.vector_distancia_32_16)} <br>
+        31-15: ${JSON.stringify(info.vector_distancia_31_15)} <br>
+      </td></tr>
+      */
+    }
+  </script>
+</body>
+</html>
