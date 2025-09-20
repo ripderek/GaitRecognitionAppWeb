@@ -385,9 +385,11 @@ def generate_frames(video_path,persona):
                                     print("Guardarndo muestra en la base de datos...")
                                     if train_sampele:
                                         print("Muestra de Entrenamiento")
+                                        sv.registrar_puntos_muestra(videoID,muestraid,promedio_32_31,desviacion_32_31,promedio_28_27,desviacion_28_27,promedio_26_25,desviacion_26_25,promedio_31_23,desviacion_31_23,promedio_32_24,desviacion_32_24,promedio_16_12,desviacion_16_12,promedio_15_11,desviacion_15_11,promedio_32_16,desviacion_32_16,promedio_31_15,desviacion_31_15,orientacion)
                                     else:
-                                        print("Muestra de Prueba")
-                                    #sv.registrar_puntos_muestra(videoID,muestraid,promedio_32_31,desviacion_32_31,promedio_28_27,desviacion_28_27,promedio_26_25,desviacion_26_25,promedio_31_23,desviacion_31_23,promedio_32_24,desviacion_32_24,promedio_16_12,desviacion_16_12,promedio_15_11,desviacion_15_11,promedio_32_16,desviacion_32_16,promedio_31_15,desviacion_31_15,orientacion)
+                                        print("Muestra de evaluacion")
+                                        sv.registrar_puntos_muestra_evaluacion(videoID,muestraid,promedio_32_31,desviacion_32_31,promedio_28_27,desviacion_28_27,promedio_26_25,desviacion_26_25,promedio_31_23,desviacion_31_23,promedio_32_24,desviacion_32_24,promedio_16_12,desviacion_16_12,promedio_15_11,desviacion_15_11,promedio_32_16,desviacion_32_16,promedio_31_15,desviacion_31_15,orientacion)
+
                                     #limpiar los vectores 
                                     vector_distancia_26_25.clear()
                                     vector_distancia_28_27.clear()

@@ -28,6 +28,9 @@ def list_videos():
     return render_template("treeview.html", arbol=arbol)
 
 
+
+
+# --- IDENTIFICACION ------------------------------------------------------------------>
 @app.route('/ver_identificacion_video')
 def index():
     global VIDEO_PATH
