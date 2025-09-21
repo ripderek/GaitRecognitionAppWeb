@@ -28,6 +28,7 @@ log_texto_RF = ""
     
 #entrenamiento con matriz de confusion:
 def EntrenamientoRF(numero):
+    global log_texto_RF
     # Paso 1: Obtener JSON desde PostgreSQL
     resultado = ec.ObtenerDatosEntrenamiento(numero)  # El JSON como dict/list
     datos = resultado
@@ -35,6 +36,8 @@ def EntrenamientoRF(numero):
     y = []
 
     print(f"RF -> Iniciando entrenamiento Modelo_{numero}")
+    log_texto_RF += f"{datetime.now()} - RF -> Iniciando entrenamiento Modelo_{numero}\n"
+
     # Paso 2: Convertir muestras en vectores
     for muestra in datos:
         vector = []
@@ -52,6 +55,7 @@ def EntrenamientoRF(numero):
 
     valores, cuentas = np.unique(y, return_counts=True)
     print(pd.DataFrame({"Clase": valores, "Cantidad": cuentas}))
+    log_texto_RF += pd.DataFrame({"Clase": valores, "Cantidad": cuentas}).to_string() + "\n"
 
     # Definir el espacio de búsqueda de hiperparámetros
     param_dist = {
@@ -103,16 +107,28 @@ def EntrenamientoRF(numero):
 
     # Logs
     print(f"Modelo entrenado y guardado exitosamente como: {nombre_archivo}")
+    log_texto_RF += f"{datetime.now()} - Modelo entrenado y guardado exitosamente como: {nombre_archivo}\n"
     print(f"Tiempo de entrenamiento: {duracion:.2f} segundos")
+    log_texto_RF += f"{datetime.now()} - Tiempo de entrenamiento: {duracion:.2f} segundos\n"
     print(f"Mejores parámetros: {mejor_params}")
+    log_texto_RF += f"{datetime.now()} - Mejores parámetros: {mejor_params}\n"
     print(f"Mejor F1-macro promedio (cv=8): {mejor_score:.4f}")
+    log_texto_RF += f"{datetime.now()} - Mejor F1-macro promedio (cv=8): {mejor_score:.4f}\n"
 
     print("\nResumen de combinaciones probadas (Top 5 ordenadas por F1-macro):")
+    log_texto_RF += f"{datetime.now()} - Resumen de combinaciones probadas (Top 5 ordenadas por F1-macro):\n"
+
     print(resultados[["params", "mean_test_accuracy", "mean_test_f1_macro",
                       "mean_test_precision_macro", "mean_test_recall_macro",
                       "mean_test_balanced_accuracy"]]
           .sort_values(by="mean_test_f1_macro", ascending=False)
           .head())
+    
+    log_texto_RF += (resultados[["params", "mean_test_accuracy", "mean_test_f1_macro",
+                      "mean_test_precision_macro", "mean_test_recall_macro",
+                      "mean_test_balanced_accuracy"]]
+          .sort_values(by="mean_test_f1_macro", ascending=False)
+          .head().to_string() + "\n")
 
     # Obtener JSON desde PostgreSQL de evaluacion
     resultado_ = ec.ObtenerDatosEvaluacion(numero)  # El JSON como dict/list
@@ -121,6 +137,8 @@ def EntrenamientoRF(numero):
     y_entre = []
 
     print(f"RF -> Obteniendo muestas para evaluacion_{numero}")
+    log_texto_RF += f"{datetime.now()} - RF -> Obteniendo muestas para evaluacion_{numero}\n"
+
     # Paso 2: Convertir muestras en vectores
     for muestra in datos_:
         vector = []
@@ -163,9 +181,14 @@ def EntrenamientoRF(numero):
     # Mostrar en consola (opcional)
     print("\nMatriz de Confusión:")
     print(cm_df)
+    log_texto_RF += f"{datetime.now()} - Matriz de Confusión:\n"
+    log_texto_RF += cm_df.to_string() + "\n"
 
     print("\nReporte de clasificación (Precision, Recall, F1 por clase):")
     print(report)
+
+    log_texto_RF += f"{datetime.now()} - Reporte de clasificación (Precision, Recall, F1 por clase):\n"
+    log_texto_RF += report + "\n"
 
     # ------------------------------
     # Paso 6: Guardar en un txt la matriz de confusion y la tabla con las metricas obtenidas
@@ -176,8 +199,12 @@ def EntrenamientoRF(numero):
         f.write(cm_df.to_string())  # convierte el DataFrame en texto
         f.write("\n\nReporte de Clasificación:\n")
         f.write(report)
+    
+    log_texto_RF += f"{datetime.now()} - Modelo entrenado y guardado exitosamente como: {nombre_archivo}\n"
 
-
+def reset_log_RF():
+    global log_texto_RF
+    log_texto_RF = ""
 
 
 

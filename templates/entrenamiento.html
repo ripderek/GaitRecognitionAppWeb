@@ -5,12 +5,23 @@
   <title>Entrenamiento de Modelos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {  font-family: Arial, sans-serif; }
+    body {  font-family: Arial, sans-serif;       margin: 0;       /* <- elimina márgenes del body */
+      padding: 0;      /* <- elimina padding para que el navbar llegue al borde */}
     #log { white-space: pre-wrap; background: #f8f9fa; padding: 10px; border: 1px solid #ddd; height: 300px; overflow-y: scroll; }
+      #container {
+      position: relative;
+      width: 100%;
+      height: auto;
+      max-width: 960px;
+      margin: 0 auto;  /* centra el video en la página */
+      padding: 10px;   /* margen interno opcional */
+    }
   </style>
 </head>
 <body>
  {% include 'navbar.html' %}
+   <div class="container-fluid">
+
 <h1>Entrenamiento de Modelos</h1>
 
 <div class="mb-3">
@@ -21,7 +32,7 @@
 
 <h5>Estado del entrenamiento:</h5>
 <div id="log">Esperando acción...</div>
-
+</div>
 <script>
   function iniciar(numero){
     fetch(`/iniciar_entrenamiento/${numero}`, { method: 'POST' })

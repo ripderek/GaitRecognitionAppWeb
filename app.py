@@ -203,7 +203,7 @@ def entrenar_modelo(numero):
     estado_entrenamiento["mensaje"] = f"Iniciando entrenamiento Modelo_{numero}..."
     try:
         et.EntrenamientoRF(numero)
-        estado_entrenamiento["mensaje"] = f"Modelo_{numero} entrenado correctamente."
+        #estado_entrenamiento["mensaje"] = f"Modelo_{numero} entrenado correctamente."
     except Exception as e:
         estado_entrenamiento["mensaje"] = f"Error: {str(e)}"
     estado_entrenamiento["activo"] = False
@@ -215,7 +215,8 @@ def entrenamiento():
 @app.route("/iniciar_entrenamiento/<int:numero>", methods=["POST"])
 def iniciar_entrenamiento(numero):
     if not estado_entrenamiento["activo"]:
-        thread = threading.Thread(target=entrenar_modelo, args=(numero,))
+        et.reset_log_RF()  # Limpiar el log antes de iniciar un nuevo entrenamiento
+        thread = threading.Thread(target=entrenar_modelo, args=(numero,)) #llama a la funcion y le pasa los parametros como argumento
         thread.start()
         return jsonify({"status": "ok", "mensaje": f"Entrenamiento Modelo_{numero} iniciado."})
     else:
@@ -223,10 +224,13 @@ def iniciar_entrenamiento(numero):
 
 @app.route("/estado_entrenamiento")
 def estado():
+    global estado_entrenamiento
+    estado_entrenamiento["mensaje"] = et.log_texto_RF
     return jsonify(estado_entrenamiento)
 
 
 if __name__ == '__main__':
-    app.run(port=3000, debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True) #expone flask a la red 
+    #app.run(port=3000, debug=True)
     #app.run(port=3000)
     #app.run(debug=True)

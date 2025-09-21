@@ -1,0 +1,70 @@
+Matriz de Confusión:
+            AdrianJ  AdrianJ2  AlexanderG  AllisonM  AndradeP  ArielO  Benites  BryanF  BryanF2  Calero  CornejoC  CoronelC  CrespoE  DanielL  DerlisP  EspinalesG  GamarraA  JoseA  JosselynV  ManotoaA  MendozaA  NavasR  RoselynS  SabandoI  SanchezV  VacaR  VelezV  YairT  YeranickM  ZamoraA
+AdrianJ          54         0           0         0         1       0        0       0        0       0         0         0        0        0        0           0         0      0          0         0         0       0         0         0         0      4       0      0          0        0
+AdrianJ2          3        58           1         0         0       0        0       0        0       0         0         3        0        6        0           1         0      1          0         0         0       0         0         0         1      0       0      0          0        0
+AlexanderG        1         0          56         0         1       1        0       0        0       0         0         0        2        0        0           0         0      1          0         1         0       0         0         0         0      0       0      2          0        0
+AllisonM          0         0           0        68         0       0        0       0        0       0         0         0        0        1        0           0         0      0          0         0         0       0         0         0         4      0       0      0          0        0
+AndradeP          0         0           1         0        36       2        0       0        0       0         0         0        5        0        0           0         0      0          0         0         0       1         0         1         0      0       0      0          1        0
+ArielO            0         1           0         1         0      40        0       0        0       0         0         0        3        0        0           0         0      0          0         0         1       0         0         2         0      0       0      1          1        0
+Benites           0         9           0         0         0       0       52       0        0       0         1         0        0        0        0           0         0      0          0         0         6       0         0         0         0      0       0      0          0        0
+BryanF            0         0           0         0         0       0        0      50        0       0         0         2        0        0        0           4         0      0          0         0         0       0         1         0         0      0       0      0          0        0
+BryanF2           0         0           0         0         0       0        0       0       22       0         0         0        0        0        0           0         0      0          0         0         0       0         1         0         0      0       0      0          0        0
+Calero            0         0           1         0         1       0        0       1        0      36         0         0        0        1        1           0         0      0          0         0         0       0         0         1         1      0       0      5          0        1
+CornejoC          0         0           1         3         1       6        0       0        0       0        29         0        2        0        0           0         0      0          0         1         0       1         3         2         0      0       0      0          1        0
+CoronelC          0         0           0         0         0       0        0       0        0       1         0        27        1        0        0           0         0      0          0         0         0       1         0         1         0      0       0      0          0        0
+CrespoE           0         1           3         0         0       4        0       1        0       0         0         0       46        0        0           0         0      1          1         2         0       1         0         0         0      0       0      0          0        0
+DanielL           0         0          10         0         0       0        1       2        0       0         0         0        1       50        0           0         0      0          0         0         1       0         0         0         0      0       1      1          0        0
+DerlisP           0         0           0         0         0       2        0       0        0       0         3         0        0        0       36           0         2      1          0         0         0       0         0         1         0      0       2      0          0        0
+EspinalesG        2         3           0         0         0       0        0       0        1       0         2         0        1        0        5          50         0      0          0         0         1       2         0         0         0      0       2      0          0        0
+GamarraA          0         0           0         0         0       0        0       0        0       0         0         0        0        0        0           0        36      0          0         0         0       0         0         0         0      0       0      0          0        0
+JoseA             0         2           0         1         0       5        0       0        0       0         0         0        0        0        2           0         1     30          1         1         1       0         0         0         0      0       1      0          1        0
+JosselynV         0         0           0         0         0       0        0       3        0       0         0         0        0        0        0           0         0      1         40         0         0       0         0         0         0      2       0      0          0        0
+ManotoaA          0         0           0         1         0       0        0       0        0       0         0         1        0        1        0           0         0      0          0        36         0       0         0         0         0      0       0      2          0        0
+MendozaA          0         1           1         0         0       1        1       0        0       0         1         0        6        0        0           0         2      0          0         0        36       0         0         0         0      0       0      0          3        0
+NavasR            0         0           0         0         0       1        0       0        0       0         0         5        0        1        0           0         0      1          0         0         0      28         0         0         0      0       0      1          1        0
+RoselynS          0         0           0         0         0       0        0       0        0       0         0         0        0        0        0           0         0      0          0         0         0       0        45         0         0      0       0      0          0        0
+SabandoI          3         0           0         0         0       1        0       0        0       0         0         0        0        0        0           1         0      0          0         0         0       2         1        32         0      1       1      0          0        0
+SanchezV          0         0           0         2         0       0        0       0        0       0         0         4        1        0        0           0         5      0          0         0         0       0         0         0        48      0       0      2          0        0
+VacaR             0         4           2         0         0       1        0       0        0       0         2         0        2        0        1           0         0      1          0         0         0       0         0         0         0     32       4      0          0        0
+VelezV            0         2           3         0         0       2        0       0        0       0         2         0        8        0        0           0         0      0          0         0         0       1         0         2         0      1      52      0          0        0
+YairT             0         0           1         0         4       0        0       0        0       4         0         0        0        0        0           0         0      0          0         0         0       0         0         0         0      0       0     22          0        0
+YeranickM         0         0           0         2         0       0        0       0        0       0         0         1        0        0        0           0         0      0          1         0         0       0         1         1         0      4       0      0         31        1
+ZamoraA           0         1           0         0         0       2        0       0        0       0         0         0        1        0        2           0         0      1          0         0         0       0         0         0         0      0       0      0          0       42
+
+Reporte de Clasificación:
+              precision    recall  f1-score   support
+
+     AdrianJ     0.8571    0.9153    0.8852        59
+    AdrianJ2     0.7073    0.7838    0.7436        74
+  AlexanderG     0.7000    0.8615    0.7724        65
+    AllisonM     0.8718    0.9315    0.9007        73
+    AndradeP     0.8182    0.7660    0.7912        47
+      ArielO     0.5882    0.8000    0.6780        50
+     Benites     0.9630    0.7647    0.8525        68
+      BryanF     0.8772    0.8772    0.8772        57
+     BryanF2     0.9565    0.9565    0.9565        23
+      Calero     0.8780    0.7347    0.8000        49
+    CornejoC     0.7250    0.5800    0.6444        50
+    CoronelC     0.6279    0.8710    0.7297        31
+     CrespoE     0.5823    0.7667    0.6619        60
+     DanielL     0.8333    0.7463    0.7874        67
+     DerlisP     0.7660    0.7660    0.7660        47
+  EspinalesG     0.8929    0.7246    0.8000        69
+    GamarraA     0.7826    1.0000    0.8780        36
+       JoseA     0.7895    0.6522    0.7143        46
+   JosselynV     0.9302    0.8696    0.8989        46
+    ManotoaA     0.8780    0.8780    0.8780        41
+    MendozaA     0.7826    0.6923    0.7347        52
+      NavasR     0.7568    0.7368    0.7467        38
+    RoselynS     0.8654    1.0000    0.9278        45
+    SabandoI     0.7442    0.7619    0.7529        42
+    SanchezV     0.8889    0.7742    0.8276        62
+       VacaR     0.7273    0.6531    0.6882        49
+      VelezV     0.8254    0.7123    0.7647        73
+       YairT     0.6111    0.7097    0.6567        31
+   YeranickM     0.7949    0.7381    0.7654        42
+     ZamoraA     0.9545    0.8571    0.9032        49
+
+    accuracy                         0.7917      1541
+   macro avg     0.7992    0.7960    0.7928      1541
+weighted avg     0.8031    0.7917    0.7926      1541
